@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <!-- Security Headers via Meta Tags -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.freevisitorcounters.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://www.freevisitorcounters.com; connect-src 'self'; frame-src https://www.youtube.com https://www.youtube-nocookie.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="X-Frame-Options" content="DENY">
     <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -556,6 +556,244 @@
             gap: 1.5rem;
         }
 
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-tertiary);
+            transform: translateY(-3px);
+        }
+
+        .project-card.featured {
+            border-color: var(--accent-secondary);
+            background: linear-gradient(135deg, var(--bg-secondary) 0%, rgba(0, 255, 163, 0.05) 100%);
+        }
+
+        .project-card.featured:hover {
+            border-color: var(--accent-secondary);
+            box-shadow: 0 5px 30px rgba(0, 255, 163, 0.15);
+        }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .project-icon {
+            font-size: 1.5rem;
+        }
+
+        .project-status {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 0.25rem 0.6rem;
+            border-radius: 3px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .project-status.private {
+            background: rgba(255, 60, 60, 0.15);
+            color: var(--accent-primary);
+            border: 1px solid rgba(255, 60, 60, 0.3);
+        }
+
+        .project-status.public {
+            background: rgba(0, 255, 163, 0.15);
+            color: var(--accent-secondary);
+            border: 1px solid rgba(0, 255, 163, 0.3);
+        }
+
+        .project-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        .project-tech span {
+            font-family: var(--font-mono);
+            font-size: 0.65rem;
+            padding: 0.25rem 0.5rem;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            color: var(--text-muted);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .project-link {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--text-primary);
+        }
+
+        .project-link::before {
+            content: '>';
+            font-size: 0.7rem;
+        }
+
+        /* Career Timeline */
+        .career-timeline {
+            position: relative;
+            padding-left: 3rem;
+            max-width: 800px;
+        }
+
+        .career-timeline::before {
+            content: '';
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary), var(--accent-tertiary));
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-marker {
+            position: absolute;
+            left: -3rem;
+            top: 0.25rem;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            border: 3px solid var(--bg-primary);
+            z-index: 1;
+        }
+
+        .timeline-marker.work {
+            background: var(--accent-primary);
+            box-shadow: 0 0 10px var(--glow-red);
+        }
+
+        .timeline-marker.intern {
+            background: var(--accent-tertiary);
+        }
+
+        .timeline-marker.cert {
+            background: var(--accent-secondary);
+        }
+
+        .timeline-marker.achievement {
+            background: #ffd700;
+        }
+
+        .timeline-marker.education {
+            background: #9b59b6;
+        }
+
+        .timeline-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1rem 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            border-color: var(--border-color);
+            transform: translateX(5px);
+        }
+
+        .timeline-date {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .timeline-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin: 0.25rem 0;
+        }
+
+        .timeline-content p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .timeline-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.work { background: var(--accent-primary); }
+        .legend-dot.intern { background: var(--accent-tertiary); }
+        .legend-dot.cert { background: var(--accent-secondary); }
+        .legend-dot.achievement { background: #ffd700; }
+        .legend-dot.education { background: #9b59b6; }
+
         .achievement-card {
             background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%);
             border: 1px solid var(--border-color);
@@ -723,6 +961,130 @@
         .education-timeline {
             position: relative;
             padding-left: 2rem;
+        }
+
+        /* Media Section */
+        .media-container {
+            max-width: 800px;
+        }
+
+        .media-card {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .media-card:hover {
+            border-color: var(--accent-primary);
+        }
+
+        .media-video {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .media-video iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .media-info {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .media-source {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .media-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .media-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .media-link {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--accent-secondary);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .media-link:hover {
+            color: var(--text-primary);
+        }
+
+        .media-link::after {
+            content: '>';
+            transition: transform 0.3s ease;
+        }
+
+        .media-link:hover::after {
+            transform: translateX(5px);
+        }
+
+        @media (max-width: 768px) {
+            .media-card {
+                grid-template-columns: 1fr;
+            }
+
+            .media-video {
+                padding-bottom: 56.25%;
+            }
+
+            .media-info {
+                padding: 1.5rem;
+            }
+        }
+
+        /* Visitor Counter */
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            transform: scale(0.8);
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .visitor-counter:hover {
+            opacity: 1;
+        }
+
+        .visitor-counter img,
+        .visitor-counter a {
+            display: inline-block;
         }
 
         .education-timeline::before {
@@ -913,6 +1275,23 @@
             color: var(--accent-primary);
         }
 
+        /* Visitor Counter */
+        .visitor-counter {
+            display: flex;
+            align-items: center;
+        }
+
+        .visitor-badge {
+            height: 22px;
+            border-radius: 4px;
+            opacity: 0.8;
+            transition: opacity 0.3s ease;
+        }
+
+        .visitor-badge:hover {
+            opacity: 1;
+        }
+
         /* Mobile Hamburger */
         .mobile-menu-btn {
             display: none;
@@ -1066,7 +1445,8 @@
             <li><a href="#about">About</a></li>
             <li><a href="#experience">Experience</a></li>
             <li><a href="#skills">Skills</a></li>
-            <li><a href="#achievements">Achievements</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#timeline">Timeline</a></li>
             <li><a href="#gallery">Gallery</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -1109,49 +1489,56 @@
     <section id="experience" class="fade-in">
         <div class="section-header">
             <span class="section-tag">// 01. Experience</span>
-            <h2 class="section-title">Where I've Worked</h2>
+            <h2 class="section-title">Work Experience</h2>
         </div>
 
         <div class="experience-grid">
             <article class="experience-card">
                 <span class="experience-date">Nov 2025 - Present</span>
-                <h3 class="experience-title">Associate - Systems Engineer</h3>
+                <h3 class="experience-title">Systems Engineer (Associate)</h3>
                 <p class="experience-company"><a href="https://www.tcs.com" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">Tata Consultancy Services Limited (TCSL)</a></p>
                 <ul class="experience-list">
                     <li>Selected via TCS HackQuest Season 9 - Top 10 Ethical Hackers</li>
                 </ul>
             </article>
+        </div>
 
+        <div class="section-header" style="margin-top: 4rem;">
+            <h2 class="section-title">Internships</h2>
+        </div>
+
+        <div class="experience-grid">
             <article class="experience-card">
-                <span class="experience-date">Jan 2025 - Jul 2025</span>
+                <span class="experience-date">Jan 2025 - Jun 2025</span>
                 <h3 class="experience-title">Intern</h3>
                 <p class="experience-company"><a href="https://i4c.mha.gov.in/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">Indian Cyber Crime Coordination Centre (I4C)</a> - Ministry of Home Affairs</p>
                 <ul class="experience-list">
-                    <li>Developed internal security and automation tools for operational use</li>
+                    <li>Developed internal security tools for operational use</li>
                     <li>Conducted VAPT on multiple government web applications</li>
                     <li>Designed and executed nationwide CTF for Cyber Commandos final assessment</li>
                     <li>Contributed to fraud prevention initiatives protecting Indian citizens</li>
+                    <li>Led migration and security hardening of CYTRAIN platform</li>
                 </ul>
             </article>
 
             <article class="experience-card">
-                <span class="experience-date">Jul 2024 - Aug 2024</span>
-                <h3 class="experience-title">VAPT Intern</h3>
+                <span class="experience-date">Jul 2024 - Sep 2024</span>
+                <h3 class="experience-title">Intern</h3>
                 <p class="experience-company"><a href="https://www.nic.gov.in/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">National Informatics Center (NIC)</a> - Govt. of India</p>
                 <ul class="experience-list">
-                    <li>Performed vulnerability assessments on critical government infrastructure</li>
+                    <li>Performed vulnerability assessments on government infrastructure</li>
                     <li>Conducted penetration testing under expert mentorship</li>
                     <li>Documented and reported security findings with remediation guidance</li>
                 </ul>
             </article>
 
             <article class="experience-card">
-                <span class="experience-date">Jul 2023 - Sep 2023</span>
-                <h3 class="experience-title">VAPT Intern</h3>
+                <span class="experience-date">Jul 2023 - Oct 2023</span>
+                <h3 class="experience-title">Intern</h3>
                 <p class="experience-company"><a href="https://www.aksitservices.co.in/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">AKS IT Services</a></p>
                 <ul class="experience-list">
                     <li>Conducted security assessments for government entities</li>
-                    <li>Gained hands-on experience with enterprise security tools</li>
+                    <li>Gained hands-on experience with security tools</li>
                     <li>Collaborated with senior testers on complex engagements</li>
                 </ul>
             </article>
@@ -1196,6 +1583,7 @@
             <div class="skill-category">
                 <h3 class="skill-category-title">Web Security</h3>
                 <div class="skill-tags">
+                    <span class="skill-tag">OWASP Top 10</span>
                     <span class="skill-tag">SSRF</span>
                     <span class="skill-tag">XXE</span>
                     <span class="skill-tag">SSTI</span>
@@ -1230,6 +1618,13 @@
             </div>
 
             <div class="skill-category">
+                <h3 class="skill-category-title">AI/ML Security</h3>
+                <div class="skill-tags">
+                    <span class="skill-tag">ART (Adversarial Robustness Toolbox)</span>
+                </div>
+            </div>
+
+            <div class="skill-category">
                 <h3 class="skill-category-title">Programming</h3>
                 <div class="skill-tags">
                     <span class="skill-tag">Python</span>
@@ -1242,10 +1637,96 @@
         </div>
     </section>
 
+    <!-- Projects Section -->
+    <section id="projects" class="fade-in">
+        <div class="section-header">
+            <span class="section-tag">// 03. Projects</span>
+            <h2 class="section-title">Notable Projects</h2>
+        </div>
+
+        <div class="projects-grid">
+            <article class="project-card featured">
+                <div class="project-header">
+                    <span class="project-icon">&#128506;</span>
+                    <span class="project-status public">Live</span>
+                </div>
+                <h3 class="project-title">India Cyber Slavery Crime Tracker</h3>
+                <p class="project-desc">Interactive visualization of cyber slavery arrests across Indian states and union territories. Displays arrest data with hover details for each region. Developed during I4C internship.</p>
+                <div class="project-tech">
+                    <span>JavaScript</span>
+                    <span>Data Visualization</span>
+                    <span>Interactive Maps</span>
+                </div>
+                <div class="project-links">
+                    <a href="https://ella-bakshi.github.io/crime-tracker/index.html" target="_blank" rel="noopener noreferrer" class="project-link">Live Demo</a>
+                    <a href="https://github.com/Ella-Bakshi/crime-tracker" target="_blank" rel="noopener noreferrer" class="project-link">GitHub</a>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">&#128274;</span>
+                    <span class="project-status private">Internal</span>
+                </div>
+                <h3 class="project-title">Visitor Management System</h3>
+                <p class="project-desc">Web-based application for efficient visitor management developed under C-DAC guidance. Handles visitor registration, tracking, and reporting for secure facilities.</p>
+                <div class="project-tech">
+                    <span>HTML</span>
+                    <span>CSS</span>
+                    <span>JavaScript</span>
+                    <span>PHP</span>
+                    <span>MySQL</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">&#128736;</span>
+                    <span class="project-status private">Private</span>
+                </div>
+                <h3 class="project-title">Linux Hardening Script</h3>
+                <p class="project-desc">Comprehensive security hardening script for Debian-based Linux installations. Automates security configurations, service hardening, and compliance checks.</p>
+                <div class="project-tech">
+                    <span>Bash</span>
+                    <span>AWK</span>
+                    <span>SED</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">&#128187;</span>
+                    <span class="project-status private">NDA</span>
+                </div>
+                <h3 class="project-title">I4C Internal Security Tools</h3>
+                <p class="project-desc">Developed multiple security tools for internal operations at I4C, Ministry of Home Affairs. Details under NDA.</p>
+                <div class="project-tech">
+                    <span>Python</span>
+                    <span>Automation</span>
+                    <span>Security</span>
+                </div>
+            </article>
+
+            <article class="project-card">
+                <div class="project-header">
+                    <span class="project-icon">&#127919;</span>
+                    <span class="project-status private">NDA</span>
+                </div>
+                <h3 class="project-title">Cyber Commandos CTF</h3>
+                <p class="project-desc">Designed and conducted a nationwide CTF competition for the first batch of Cyber Commandos as their final assessment at I4C.</p>
+                <div class="project-tech">
+                    <span>CTF Design</span>
+                    <span>Challenge Creation</span>
+                    <span>Infrastructure</span>
+                </div>
+            </article>
+        </div>
+    </section>
+
     <!-- Achievements Section -->
     <section id="achievements" class="fade-in">
         <div class="section-header">
-            <span class="section-tag">// 03. Achievements</span>
+            <span class="section-tag">// 04. Achievements</span>
             <h2 class="section-title">Notable Wins</h2>
         </div>
 
@@ -1288,10 +1769,174 @@
         </div>
     </section>
 
+    <!-- Career Timeline Section -->
+    <section id="timeline" class="fade-in">
+        <div class="section-header">
+            <span class="section-tag">// 05. Timeline</span>
+            <h2 class="section-title">Journey So Far</h2>
+        </div>
+
+        <div class="career-timeline">
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-marker work"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Nov 20, 2025</span>
+                    <h4>Systems Engineer at TCS</h4>
+                    <p>Joined via HackQuest S9 Top 10</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-marker cert"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Sep 26, 2025</span>
+                    <h4>OSCP+ Certified</h4>
+                    <p>Offensive Security Certified Professional</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-marker achievement"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">May 1-3, 2025</span>
+                    <h4>Pentathon 2025 Finalist</h4>
+                    <p>NCIIPC-AICTE - 17th Rank</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-marker achievement"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Feb 28, 2025</span>
+                    <h4>TCS HackQuest S9 - Top 10</h4>
+                    <p>Award Ceremony</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2025">
+                <div class="timeline-marker intern"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Jan 1 - Jun 7, 2025</span>
+                    <h4>Intern at I4C</h4>
+                    <p>Ministry of Home Affairs</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2024">
+                <div class="timeline-marker cert"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Aug 16, 2024</span>
+                    <h4>HTB CWES Certified</h4>
+                    <p>Certified Web Exploitation Specialist</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2024">
+                <div class="timeline-marker intern"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Jul - Sep 2024</span>
+                    <h4>Intern at NIC</h4>
+                    <p>Government of India</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2024">
+                <div class="timeline-marker cert"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">May 25, 2024</span>
+                    <h4>eJPT Certified</h4>
+                    <p>Junior Penetration Tester</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2024">
+                <div class="timeline-marker achievement"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Apr 5-14, 2024</span>
+                    <h4>CII SECEX Participant</h4>
+                    <p>NCIIPC & SASTRA (RRU)</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2024">
+                <div class="timeline-marker achievement"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Jan 7, 2024</span>
+                    <h4>SAMPDA IoT CTF - AIR 1</h4>
+                    <p>Gujarat University & DRDO</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2023">
+                <div class="timeline-marker cert"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Oct 1, 2023</span>
+                    <h4>CWAP Certified</h4>
+                    <p>Certified Web Application Pentester</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2023">
+                <div class="timeline-marker intern"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">Jul - Oct 2023</span>
+                    <h4>Intern at AKS IT Services</h4>
+                    <p>Security Assessments</p>
+                </div>
+            </div>
+
+            <div class="timeline-item" data-year="2021">
+                <div class="timeline-marker education"></div>
+                <div class="timeline-content">
+                    <span class="timeline-date">2021 - 2025</span>
+                    <h4>B.Tech CS (Cyber Security)</h4>
+                    <p>Rashtriya Raksha University</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="timeline-legend">
+            <span class="legend-item"><span class="legend-dot work"></span> Work</span>
+            <span class="legend-item"><span class="legend-dot intern"></span> Internship</span>
+            <span class="legend-item"><span class="legend-dot cert"></span> Certification</span>
+            <span class="legend-item"><span class="legend-dot achievement"></span> Achievement</span>
+            <span class="legend-item"><span class="legend-dot education"></span> Education</span>
+        </div>
+    </section>
+
+    <!-- Media Coverage Section -->
+    <section id="media" class="fade-in">
+        <div class="section-header">
+            <span class="section-tag">// 06. Media</span>
+            <h2 class="section-title">Featured In</h2>
+        </div>
+
+        <div class="media-container">
+            <div class="media-card">
+                <div class="media-video">
+                    <iframe 
+                        src="https://www.youtube.com/embed/aLOZ5GwKGFs?start=796&end=998" 
+                        title="DD News Coverage" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen
+                        loading="lazy">
+                    </iframe>
+                </div>
+                <div class="media-info">
+                    <span class="media-source">DD News</span>
+                    <h3 class="media-title">National News Segment</h3>
+                    <p class="media-desc">Featured in DD News coverage discussing cybersecurity initiatives and achievements.</p>
+                    <a href="https://youtu.be/aLOZ5GwKGFs?si=BEIusUU1o8A4PCGP&t=796" class="media-link" target="_blank" rel="noopener noreferrer">Watch on YouTube</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Gallery Section -->
     <section id="gallery" class="gallery-section fade-in">
         <div class="section-header">
-            <span class="section-tag">// 04. Gallery</span>
+            <span class="section-tag">// 07. Gallery</span>
             <h2 class="section-title">Moments & Milestones</h2>
         </div>
 
@@ -1360,10 +2005,43 @@
         <img src="" alt="Gallery image">
     </div>
 
+    <!-- Volunteering Section -->
+    <section id="volunteering" class="fade-in">
+        <div class="section-header">
+            <span class="section-tag">// 08. Volunteering</span>
+            <h2 class="section-title">Community Involvement</h2>
+        </div>
+
+        <div class="experience-grid">
+            <article class="experience-card">
+                <span class="experience-date">2021 & 2022</span>
+                <h3 class="experience-title">Convocation Control Center Member</h3>
+                <p class="experience-company"><a href="https://rru.ac.in" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">Rashtriya Raksha University</a></p>
+                <ul class="experience-list">
+                    <li>Served as key member of Control Center during University Convocation ceremonies</li>
+                    <li>2021: Coordinated security measures for ceremony attended by Prime Minister Shri Narendra Modi</li>
+                    <li>2022: Managed operations during event with Defence Minister Shri Rajnath Singh</li>
+                    <li>Ensured smooth coordination between departments during high-profile events</li>
+                </ul>
+            </article>
+
+            <article class="experience-card">
+                <span class="experience-date">2024</span>
+                <h3 class="experience-title">CII SECEX Team Member</h3>
+                <p class="experience-company"><a href="https://rru.ac.in/cii-secex-2024/" target="_blank" rel="noopener noreferrer" style="color: var(--accent-secondary); text-decoration: none;">NCIIPC (NTRO) & SASTRA</a></p>
+                <ul class="experience-list">
+                    <li>Represented RRU at Critical Information Infrastructure Security Exercise</li>
+                    <li>Participated in national-level cybersecurity simulation exercises</li>
+                    <li>Collaborated with teams from premier institutions across India</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
     <!-- Education Section -->
     <section id="education" class="fade-in">
         <div class="section-header">
-            <span class="section-tag">// 05. Education</span>
+            <span class="section-tag">// 09. Education</span>
             <h2 class="section-title">Academic Background</h2>
         </div>
 
@@ -1381,7 +2059,7 @@
     <div class="contact-section">
         <section id="contact" class="fade-in">
             <div class="section-header">
-                <span class="section-tag">// 06. Contact</span>
+                    <span class="section-tag">// 10. Contact</span>
                 <h2 class="section-title">Get In Touch</h2>
             </div>
 
@@ -1457,6 +2135,10 @@
     <!-- Footer -->
     <footer>
         <p>Designed & Built by Anmol Bakshi</p>
+        <div class="visitor-counter">
+            <a href='http://www.freevisitorcounters.com'>www.Freevisitorcounters</a> <script type='text/javascript' src='https://www.freevisitorcounters.com/auth.php?id=bebf12bac42c6dd0a21907b32f7852d3bfad4258'></script>
+            <script type="text/javascript" src="https://www.freevisitorcounters.com/en/home/counter/1454954/t/7"></script>
+        </div>
         <div class="footer-links">
             <a href="https://github.com/Ella-Bakshi" target="_blank" rel="noopener noreferrer">GitHub</a>
             <a href="https://www.linkedin.com/in/anmolbakshi24/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
@@ -1682,6 +2364,9 @@
                     }
                 });
             });
+
+            // Visitor Counter - using hits.seeyoufarm.com (no CORS issues)
+            // Counter is handled via the image in the footer
         })();
     </script>
 </body>
