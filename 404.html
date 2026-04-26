@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; base-uri 'self'; frame-ancestors 'none';" />
+<meta http-equiv="X-Content-Type-Options" content="nosniff" />
+<meta name="referrer" content="no-referrer" />
+<meta name="robots" content="noindex" />
+<title>404 — Off the record</title>
+<style>
+:root{
+  --paper: oklch(0.965 0.012 82);
+  --ink: oklch(0.18 0.012 60);
+  --ink-3: oklch(0.5 0.01 60);
+  --vermillion: oklch(0.55 0.18 38);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  display:flex;align-items:center;justify-content:center;
+  min-height:100vh;
+  padding:32px;
+}
+.box{max-width:640px;text-align:left}
+.num{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--vermillion);margin-bottom:18px;
+}
+h1{
+  font-family:'Instrument Serif', Georgia, serif;
+  font-size:clamp(48px, 8vw, 96px);
+  font-weight:400;line-height:1.05;letter-spacing:-.02em;
+  margin-bottom:18px;
+}
+h1 em{font-style:italic;color:var(--ink-3)}
+p{font-size:15px;line-height:1.6;color:var(--ink-3);margin-bottom:24px;max-width:48ch}
+a.back{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--ink);text-decoration:none;
+  border-bottom:1px solid currentColor;padding-bottom:2px;
+  transition:color .2s,border-color .2s;
+}
+a.back:hover{color:var(--vermillion);border-color:var(--vermillion)}
+.rule{height:1px;background:rgba(0,0,0,.12);margin:32px 0}
+.foot{
+  font-family:'JetBrains Mono', ui-monospace, monospace;
+  font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--ink-3);
+}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="num">Err. 404 / Page not found</div>
+  <h1>Off the <em>record.</em></h1>
+  <p>The dossier doesn't have a page at this address. The trail goes cold here.</p>
+  <a class="back" href="/">← Return to dossier</a>
+  <div class="rule"></div>
+  <div class="foot">anmolbakshi.com · static dossier</div>
+</div>
+</body>
+</html>
