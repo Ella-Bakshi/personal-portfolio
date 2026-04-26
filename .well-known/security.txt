@@ -1,0 +1,5 @@
+Contact: https://www.linkedin.com/in/anmolbakshi24/
+Preferred-Languages: en
+Canonical: https://anmolbakshi.com/.well-known/security.txt
+Expires: 2027-01-01T00:00:00.000Z
+# Responsible disclosure: please reach out via LinkedIn.
