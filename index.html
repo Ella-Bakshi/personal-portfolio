@@ -6,22 +6,21 @@
 <title>Anmol Bakshi — Dossier</title>
 
 <!-- ============================================================
-     SECURITY HEADERS (meta-equivalent — GitHub Pages honors these)
+     SECURITY HEADERS — NOTE: a <meta> CSP cannot carry frame-ancestors (browsers ignore it there and warn in console), so it is set only in _headers; clickjacking is covered on-page by theme-init.js. X-Content-Type-Options & Permissions-Policy below take effect ONLY as real HTTP headers (see _headers, for Cloudflare Pages / Netlify).
      ============================================================ -->
 
 <!-- Content Security Policy: lock down what can run, fetch, embed -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'none';
-  script-src 'self' 'unsafe-inline';
-  style-src  'self' 'unsafe-inline' https://fonts.googleapis.com;
-  font-src   'self' https://fonts.gstatic.com data:;
+  script-src 'self';
+  style-src  'self' 'unsafe-inline';
+  font-src   'self' data:;
   img-src    'self' data: blob:;
   media-src  'self';
   frame-src  https://www.youtube-nocookie.com;
   connect-src 'self';
   form-action 'self';
   base-uri    'self';
-  frame-ancestors 'none';
   object-src 'none';
   upgrade-insecure-requests;
 " />
@@ -32,7 +31,7 @@
 
 <!-- Permissions Policy: kill access to sensors, payment, USB, etc. -->
 <meta http-equiv="Permissions-Policy"
-      content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=(), interest-cohort=()" />
+      content="accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()" />
 
 <!-- SEO + identity -->
 <meta name="description" content="Anmol Bakshi — Cyber-security engineer. Dossier of work, projects, certifications, and engagements." />
@@ -47,21 +46,10 @@
 <meta property="og:url" content="https://anmolbakshi.com/" />
 <meta name="twitter:card" content="summary" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter+Tight:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link href="fonts.css" rel="stylesheet" />
 
 <!-- No-flash theme bootstrap: applies persisted/system theme before first paint -->
-<script>
-(function(){
-  try{
-    var stored = localStorage.getItem('theme');
-    var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    var theme = stored || (prefersDark ? 'dark' : 'light');
-    document.documentElement.setAttribute('data-theme', theme);
-  }catch(e){}
-})();
-</script>
+<script src="theme-init.js"></script>
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23f3ebd9'/%3E%3Ctext x='50' y='72' text-anchor='middle' font-family='Georgia,serif' font-style='italic' font-size='70' fill='%23241e16'%3EA%3C/text%3E%3C/svg%3E" />
 
@@ -884,10 +872,116 @@ main{
 }
 .proj-link:hover .arr{transform:translateX(4px)}
 
+/* ---------- research & CVE ---------- */
+.research{ display:flex; flex-direction:column; gap:28px; }
+.research-lede{
+  font-family:var(--serif); font-style:italic; font-size:22px; line-height:1.35;
+  color:var(--ink-2); max-width:780px; margin-bottom:40px;
+  border-left:2px solid var(--vermillion); padding-left:18px;
+}
+.case-file{
+  border:1px solid var(--ink);
+  background:var(--paper-2);
+  position:relative;
+}
+.case-file-head{
+  display:grid; grid-template-columns:1fr auto; gap:18px 32px; align-items:baseline;
+  padding:26px 32px 22px;
+  border-bottom:1px solid var(--rule);
+}
+.case-no{
+  font-family:var(--mono); font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--vermillion); margin-bottom:12px; display:flex; align-items:center; gap:10px;
+}
+.case-no::after{ content:""; width:30px; height:1px; background:var(--vermillion); }
+.case-file-head h3{
+  font-family:var(--serif); font-weight:400; font-size:30px; line-height:1.08;
+  letter-spacing:-.01em; color:var(--ink); max-width:30ch;
+}
+.case-ref{
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3); text-align:right; line-height:1.9; white-space:nowrap;
+}
+.case-ref a{ color:var(--ink); text-decoration:none; border-bottom:1px solid var(--rule-strong); transition:color .2s,border-color .2s; }
+.case-ref a:hover{ color:var(--vermillion); border-color:var(--vermillion); }
+.case-desc{
+  padding:20px 32px 2px; font-size:14px; color:var(--ink-2); line-height:1.6; max-width:900px;
+}
+
+.cve-ledger{ padding:8px 32px 26px; display:flex; flex-direction:column; }
+.cve-row{
+  display:grid;
+  grid-template-columns:172px 1fr 188px;
+  gap:28px; align-items:start;
+  padding:20px 0;
+  border-top:1px solid var(--rule);
+  transition:padding .25s, background .25s;
+}
+.cve-row:hover{ padding-left:10px; }
+.cve-id{
+  font-family:var(--mono); font-size:12.5px; letter-spacing:.02em;
+  color:var(--ink); text-decoration:none;
+  border-bottom:1px solid var(--rule-strong); align-self:start; padding-top:2px;
+  transition:color .2s,border-color .2s;
+}
+.cve-id:hover{ color:var(--vermillion); border-color:var(--vermillion); }
+.cve-cwe{ display:block; margin-top:8px; font-size:9.5px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--ink-3); }
+.cve-main h5{
+  font-family:var(--serif); font-weight:400; font-size:20px; line-height:1.18;
+  color:var(--ink); margin-bottom:5px; letter-spacing:-.005em;
+}
+.cve-main p{ font-size:13px; color:var(--ink-2); line-height:1.5; }
+.cvss{ display:flex; flex-direction:column; gap:9px; }
+.cvss-top{
+  display:flex; align-items:flex-end; justify-content:space-between; gap:10px;
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--ink-3);
+}
+.cvss-score{ font-family:var(--serif); font-style:italic; font-size:30px; color:var(--vermillion); line-height:.8; }
+.cvss-sev{
+  font-family:var(--mono); font-size:9px; letter-spacing:.16em; text-transform:uppercase;
+  padding:4px 9px 3px; border:1px solid var(--vermillion); color:var(--vermillion);
+  border-radius:1px; align-self:flex-start;
+}
+.cvss-sev.crit{ background:var(--vermillion); color:var(--paper); }
+.cvss-meter{ height:3px; background:var(--rule); position:relative; overflow:hidden; }
+.cvss-meter > span{ position:absolute; left:0; top:0; bottom:0; background:var(--vermillion); }
+
+.finding-crit{
+  margin:0 32px 30px;
+  border:1px solid var(--vermillion);
+  background:rgba(var(--vermillion-rgb),.06);
+  padding:24px 28px;
+}
+.fc-head{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:6px; }
+.fc-tag{
+  font-family:var(--mono); font-size:9px; letter-spacing:.18em; text-transform:uppercase;
+  background:var(--vermillion); color:var(--paper); padding:4px 10px 3px; border-radius:1px;
+}
+.fc-meta{
+  font-family:var(--mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-3);
+}
+.finding-crit h5{
+  font-family:var(--serif); font-weight:400; font-size:23px; line-height:1.12; color:var(--ink);
+  margin:12px 0 8px; letter-spacing:-.005em;
+}
+.finding-crit > p{ font-size:13.5px; color:var(--ink-2); line-height:1.6; margin-bottom:16px; max-width:860px; }
+.fc-list{ list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:11px 30px; }
+.fc-list li{ position:relative; padding-left:20px; font-size:12.5px; color:var(--ink-2); line-height:1.5; }
+.fc-list li b{ color:var(--ink); font-weight:500; }
+.fc-list li::before{
+  content:"\00a7"; position:absolute; left:0; top:-1px;
+  font-family:var(--serif); font-style:italic; color:var(--vermillion); font-size:15px;
+}
+
+.case-strip{ display:grid; grid-template-columns:230px 1fr; gap:34px; align-items:center; padding:24px 32px 28px; }
+.case-strip p{ font-size:14px; color:var(--ink-2); line-height:1.6; }
+
 /* ---------- achievements / wins ---------- */
 .wins{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(5,1fr);
   border-top:1px solid var(--ink);
   border-bottom:1px solid var(--ink);
 }
@@ -983,7 +1077,6 @@ main{
   padding:24px 24px 0 0;
   text-align:right;
   line-height:1;
-  position:sticky;top:80px;
   align-self:start;
 }
 .tl-events{
@@ -1064,6 +1157,34 @@ main{
 }
 .media-video iframe{
   position:absolute;inset:0;width:100%;height:100%;border:0;
+}
+.video-facade{
+  position:absolute;inset:0;width:100%;height:100%;
+  border:0;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  background:
+    radial-gradient(circle at 30% 40%, oklch(0.55 0.075 230 / .45), transparent 55%),
+    radial-gradient(circle at 70% 60%, oklch(0.56 0.155 32 / .35), transparent 55%),
+    oklch(0.205 0.015 250);
+  -webkit-tap-highlight-color:transparent;
+}
+.vf-ring{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid rgba(var(--paper-rgb),.55);
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .25s, transform .25s;
+}
+.video-facade:hover .vf-ring{border-color:var(--vermillion);transform:scale(1.06)}
+.vf-play{
+  width:0;height:0;margin-left:5px;
+  border-style:solid;border-width:10px 0 10px 17px;
+  border-color:transparent transparent transparent rgba(var(--paper-rgb),.9);
+  transition:border-left-color .25s;
+}
+.video-facade:hover .vf-play{border-left-color:var(--vermillion)}
+.vf-label{
+  font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(var(--paper-rgb),.82);
 }
 .media-info{padding:36px 38px;display:flex;flex-direction:column;justify-content:center}
 .media-source{
@@ -1544,6 +1665,12 @@ main{
 
 @media (max-width: 1100px){
   .indexer{display:none}
+  .case-file-head{grid-template-columns:1fr;gap:6px}
+  .case-ref{text-align:left;white-space:normal}
+  .cve-row{grid-template-columns:1fr;gap:12px;padding:18px 0}
+  .cve-row .cvss{max-width:240px}
+  .case-strip{grid-template-columns:1fr;gap:18px}
+  .fc-list{grid-template-columns:1fr}
   main{padding:0 32px 60px}
   .hero{grid-template-columns:1fr;gap:40px}
   .hero-meta{position:static;margin-bottom:24px}
@@ -1578,6 +1705,10 @@ main{
 
 @media (max-width: 600px){
   .masthead{padding:14px 14px 10px;gap:10px}
+  .case-file-head,.case-desc,.cve-ledger,.case-strip{padding-left:18px;padding-right:18px}
+  .finding-crit{margin-left:18px;margin-right:18px;padding:18px}
+  .case-file-head h3{font-size:23px}
+  .research-lede{font-size:19px}
   .mast-mid{display:none}
   .mast-left{font-size:9.5px;letter-spacing:.10em;gap:10px}
   .mast-right{gap:12px;font-size:9.5px;letter-spacing:.10em}
@@ -1675,11 +1806,12 @@ main{
   <a href="#experience" data-target="experience"><span>II</span><span class="label">Experience</span></a>
   <a href="#skills" data-target="skills"><span>III</span><span class="label">Skills</span></a>
   <a href="#projects" data-target="projects"><span>IV</span><span class="label">Projects</span></a>
-  <a href="#wins" data-target="wins"><span>V</span><span class="label">Wins</span></a>
-  <a href="#timeline" data-target="timeline"><span>VI</span><span class="label">Timeline</span></a>
-  <a href="#media" data-target="media"><span>VII</span><span class="label">Featured</span></a>
-  <a href="#gallery" data-target="gallery"><span>VIII</span><span class="label">Milestones</span></a>
-  <a href="#contact" data-target="contact"><span>IX</span><span class="label">Contact</span></a>
+  <a href="#research" data-target="research"><span>V</span><span class="label">Research</span></a>
+  <a href="#wins" data-target="wins"><span>VI</span><span class="label">Wins</span></a>
+  <a href="#timeline" data-target="timeline"><span>VII</span><span class="label">Timeline</span></a>
+  <a href="#media" data-target="media"><span>VIII</span><span class="label">Featured</span></a>
+  <a href="#gallery" data-target="gallery"><span>IX</span><span class="label">Milestones</span></a>
+  <a href="#contact" data-target="contact"><span>X</span><span class="label">Contact</span></a>
 </nav>
 
 <main>
@@ -1755,7 +1887,7 @@ main{
           <div class="work-status">Currently</div>
         </div>
         <ul class="work-bullets">
-          <li>Selected via TCS HackQuest Season 9 — Top 10 Ethical Hackers.</li>
+          <li>Selected via TCS HackQuest Season 9 — Top 6 Ethical Hackers.</li>
         </ul>
       </article>
     </div>
@@ -1908,42 +2040,75 @@ main{
     <div class="section-head">
       <div class="section-num">§ IV · Projects</div>
       <h2 class="section-title">Notable <em>projects.</em></h2>
-      <div class="section-meta">07 entries · public &amp; sealed</div>
+      <div class="section-meta">09 entries · public &amp; sealed</div>
     </div>
 
     <div class="projects">
 
       <article class="proj feat">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 01 — Geographic plot, India</div>
+          <div class="proj-plate-label">FIG. 01 — 178,279 hosts cataloged · OPSEC-hardened</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
             <span>№ 01 — Featured</span>
-            <span class="proj-status live">Live</span>
+            <span class="proj-status nda">Sealed · Reported privately</span>
           </div>
-          <h4>India Cyber Slavery Crime Tracker</h4>
+          <h4>Indian Government Domain Attack-Surface Scanner &amp; VAPT Pipeline</h4>
           <p class="proj-desc">
-            Interactive visualization of cyber slavery arrests across Indian states and union territories.
-            Displays arrest data with hover details for each region. Developed during I4C internship.
+            A fully automated, OPSEC-hardened toolkit that discovers, validates, and triages vulnerabilities
+            across Indian government web infrastructure (.gov.in / .nic.in). Cataloged <strong>178,279</strong>
+            hosts, deep-crawled <strong>33,599</strong> live targets, and surfaced <strong>1,904</strong>
+            triaged findings — <strong>120&nbsp;Critical</strong>, 968&nbsp;High — including exposed .git/ repos,
+            .env files, live AWS key pairs, and private keys embedded in production JS bundles.
+            <br><br>
+            Every external request routes through a rotating 8-node proxy pool with DoH-over-proxy DNS, so the
+            operator's real IP never touches a target; a periodic CI audit flags any bare network call.
+            <strong>24,468</strong> LOC across 129 Python files.
           </p>
           <div class="proj-tech">
-            <span>JavaScript</span><span>Data Visualization</span><span>Interactive Maps</span>
+            <span>Python</span><span>OSINT</span><span>OPSEC</span><span>boto3 / STS</span><span>Playwright</span><span>Triage</span>
           </div>
           <div class="proj-links">
-            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://ella-bakshi.github.io/crime-tracker/index.html">Live demo <span class="arr">→</span></a>
-            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://github.com/Ella-Bakshi/crime-tracker">GitHub <span class="arr">→</span></a>
+            <span class="proj-link" style="cursor:default;color:var(--ink-3)">Recipient body withheld · NDA</span>
           </div>
         </div>
       </article>
 
       <article class="proj feat">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 02 — IPv4 sweep, 70.5M hosts</div>
+          <div class="proj-plate-label">FIG. 02 — 1,256 RBI-listed lending apps</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
             <span>№ 02 — Featured</span>
+            <span class="proj-status live">Live</span>
+          </div>
+          <h4>Digital Lending Apps — Lookup</h4>
+          <p class="proj-desc">
+            A searchable, fully-static lookup of the Reserve Bank of India's public list of Digital Lending
+            Apps used by Regulated Entities — banks, NBFCs, and housing-finance companies. <strong>1,256</strong>
+            listings, one card per entity × app pair, with cross-platform store pills, grievance-officer
+            contacts, and a co-lender pivot that jumps to every sibling lender of a shared product.
+            Full-text search runs on MiniSearch, vendored locally — no CDNs at runtime, CSP enforced.
+          </p>
+          <div class="proj-tech">
+            <span>Static Site</span><span>MiniSearch</span><span>RBI Dataset</span><span>CSP</span><span>Light / Dark</span>
+          </div>
+          <div class="proj-links">
+            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://ella-bakshi.github.io/dla-lookup/">Live demo <span class="arr">→</span></a>
+            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://github.com/Ella-Bakshi/dla-lookup">GitHub <span class="arr">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj feat">
+        <div class="proj-plate">
+          <div class="proj-plate-label">FIG. 03 — IPv4 sweep, 70.5M hosts</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta">
+            <span>№ 03 — Featured</span>
             <span class="proj-status live">Live</span>
           </div>
           <h4>Chinese CCTV Exposure in India</h4>
@@ -1964,13 +2129,37 @@ main{
         </div>
       </article>
 
-      <article class="proj">
+      <article class="proj feat">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 03 — Browser-console pentest engine</div>
+          <div class="proj-plate-label">FIG. 04 — Geographic plot, India</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
-            <span>№ 03</span>
+            <span>№ 04 — Featured</span>
+            <span class="proj-status live">Live</span>
+          </div>
+          <h4>India Cyber Slavery Crime Tracker</h4>
+          <p class="proj-desc">
+            Interactive visualization of cyber slavery arrests across Indian states and union territories.
+            Displays arrest data with hover details for each region. Developed during I4C internship.
+          </p>
+          <div class="proj-tech">
+            <span>JavaScript</span><span>Data Visualization</span><span>Interactive Maps</span>
+          </div>
+          <div class="proj-links">
+            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://ella-bakshi.github.io/crime-tracker/index.html">Live demo <span class="arr">→</span></a>
+            <a class="proj-link" target="_blank" rel="noopener noreferrer" href="https://github.com/Ella-Bakshi/crime-tracker">GitHub <span class="arr">→</span></a>
+          </div>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-plate">
+          <div class="proj-plate-label">FIG. 05 — Browser-console pentest engine</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-meta">
+            <span>№ 05</span>
             <span class="proj-status nda">Private</span>
           </div>
           <h4>VANTAGE — Web Pentest Toolkit</h4>
@@ -1996,11 +2185,11 @@ main{
 
       <article class="proj">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 04</div>
+          <div class="proj-plate-label">FIG. 06</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
-            <span>№ 04</span>
+            <span>№ 06</span>
             <span class="proj-status nda">Internal</span>
           </div>
           <h4>Visitor Management System</h4>
@@ -2016,11 +2205,11 @@ main{
 
       <article class="proj">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 05</div>
+          <div class="proj-plate-label">FIG. 07</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
-            <span>№ 05</span>
+            <span>№ 07</span>
             <span class="proj-status nda">Private</span>
           </div>
           <h4>Linux Hardening Script</h4>
@@ -2036,11 +2225,11 @@ main{
 
       <article class="proj">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 06</div>
+          <div class="proj-plate-label">FIG. 08</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
-            <span>№ 06</span>
+            <span>№ 08</span>
             <span class="proj-status nda">NDA</span>
           </div>
           <h4>I4C Internal Security Tools</h4>
@@ -2056,11 +2245,11 @@ main{
 
       <article class="proj">
         <div class="proj-plate">
-          <div class="proj-plate-label">FIG. 07</div>
+          <div class="proj-plate-label">FIG. 09</div>
         </div>
         <div class="proj-body">
           <div class="proj-meta">
-            <span>№ 07</span>
+            <span>№ 09</span>
             <span class="proj-status nda">NDA</span>
           </div>
           <h4>Cyber Commandos CTF</h4>
@@ -2077,26 +2266,166 @@ main{
     </div>
   </section>
 
+  <!-- ============== RESEARCH & CVE ============== -->
+  <section class="section" id="research">
+    <div class="section-head">
+      <div class="section-num">§ V · Research</div>
+      <h2 class="section-title">Research &amp; <em>CVEs.</em></h2>
+      <div class="section-meta">3 CVEs · CERT-In coordinated</div>
+    </div>
+
+    <p class="research-lede">
+      Vulnerability research disclosed responsibly and coordinated through India's national CERT.
+      Credentials, proof-of-concept code, and internal endpoints are intentionally omitted.
+    </p>
+
+    <div class="research">
+
+      <!-- Case file 01 — GPON -->
+      <article class="case-file">
+        <div class="case-file-head">
+          <div>
+            <div class="case-no">Disclosure 01 · CERT-In coordinated</div>
+            <h3>GX (Genexis) Earth GPON Devices &amp; ISP Infrastructure</h3>
+          </div>
+          <div class="case-ref">
+            Vulnerability Note<br>
+            <a target="_blank" rel="noopener noreferrer" href="https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES01&amp;VLCODE=CIVN-2026-0288">CIVN-2026-0288</a><br>
+            <span style="color:var(--ink-3)">Published 04 Jun 2026</span>
+          </div>
+        </div>
+
+        <p class="case-desc">
+          Security research across GX Earth GPON fiber-broadband devices and the associated ISP management
+          infrastructure, coordinated through CERT-In. Three issues were assigned CVEs.
+        </p>
+
+        <div class="cve-ledger">
+
+          <div class="cve-row">
+            <div>
+              <a class="cve-id" target="_blank" rel="noopener noreferrer" href="https://www.cve.org/CVERecord?id=CVE-2026-45431">CVE-2026-45431</a>
+              <span class="cve-cwe">CWE-78</span>
+            </div>
+            <div class="cve-main">
+              <h5>Authenticated OS command injection</h5>
+              <p>Command injection in the device web-management diagnostic functions, leading to remote code execution as root.</p>
+            </div>
+            <div class="cvss">
+              <div class="cvss-top"><span>CVSS 4.0</span><span class="cvss-score">8.7</span></div>
+              <div class="cvss-meter"><span style="width:87%"></span></div>
+              <span class="cvss-sev">High</span>
+            </div>
+          </div>
+
+          <div class="cve-row">
+            <div>
+              <a class="cve-id" target="_blank" rel="noopener noreferrer" href="https://www.cve.org/CVERecord?id=CVE-2026-45432">CVE-2026-45432</a>
+              <span class="cve-cwe">CWE-319</span>
+            </div>
+            <div class="cve-main">
+              <h5>Cleartext transmission of credentials</h5>
+              <p>Credentials sent over HTTP in the web-management interface, exposing authentication data to network interception.</p>
+            </div>
+            <div class="cvss">
+              <div class="cvss-top"><span>CVSS 4.0</span><span class="cvss-score">8.7</span></div>
+              <div class="cvss-meter"><span style="width:87%"></span></div>
+              <span class="cvss-sev">High</span>
+            </div>
+          </div>
+
+          <div class="cve-row">
+            <div>
+              <a class="cve-id" target="_blank" rel="noopener noreferrer" href="https://www.cve.org/CVERecord?id=CVE-2026-45433">CVE-2026-45433</a>
+              <span class="cve-cwe">Hard-coded key</span>
+            </div>
+            <div class="cve-main">
+              <h5>Hardcoded RSA private key in firmware</h5>
+              <p>An identical RSA private key shipped across all devices, enabling HTTPS decryption and man-in-the-middle attacks.</p>
+            </div>
+            <div class="cvss">
+              <div class="cvss-top"><span>CVSS 4.0</span><span class="cvss-score">8.7</span></div>
+              <div class="cvss-meter"><span style="width:87%"></span></div>
+              <span class="cvss-sev">High</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="finding-crit">
+          <div class="fc-head">
+            <span class="fc-tag">Critical · Remediated</span>
+            <span class="fc-meta">CVSS 3.1 · 9.8 · No CVE assigned · ~100,000+ devices in scope</span>
+          </div>
+          <h5>ISP TR-069 Auto-Configuration Server (ACS)</h5>
+          <p>
+            The same research surfaced a fleet-wide mass-compromise path in Asianet Broadband's
+            internet-facing TR-069 ACS — reported to CERT-In and since remediated. Combined, four weaknesses
+            opened the entire customer fleet:
+          </p>
+          <ul class="fc-list">
+            <li><b>Unauthenticated registration</b> — enrolment validated only by manufacturer OUI, so a spoofed device could register.</li>
+            <li><b>Universal credentials</b> — identical connection-request credentials pushed to every router; one recovered set reached the whole fleet.</li>
+            <li><b>Unencrypted CWMP</b> — TR-069 traffic ran over plain HTTP, exposing management credentials in transit.</li>
+            <li><b>Hardcoded credentials</b> — firmware and ISP-provisioned credentials stored in device config (CWE-798 / CWE-312).</li>
+          </ul>
+        </div>
+      </article>
+
+      <!-- Case file 02 — Sanchar Saathi -->
+      <article class="case-file">
+        <div class="case-file-head">
+          <div>
+            <div class="case-no">Disclosure 02</div>
+            <h3>Sanchar Saathi Android App</h3>
+          </div>
+          <div class="case-ref">
+            High severity<br>
+            CVSS 3.1 · 7.1
+          </div>
+        </div>
+        <div class="case-strip">
+          <div class="cvss">
+            <div class="cvss-top"><span>CVSS 3.1</span><span class="cvss-score">7.1</span></div>
+            <div class="cvss-meter"><span style="width:71%"></span></div>
+            <span class="cvss-sev">High</span>
+          </div>
+          <p>
+            Reported a High-severity security vulnerability in the Sanchar Saathi Android app.
+          </p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
   <!-- ============== WINS ============== -->
   <section class="section" id="wins">
     <div class="section-head">
-      <div class="section-num">§ V · Wins</div>
+      <div class="section-num">§ VI · Wins</div>
       <h2 class="section-title">Notable <em>wins.</em></h2>
-      <div class="section-meta">04 distinctions</div>
+      <div class="section-meta">05 distinctions</div>
     </div>
 
     <div class="wins">
       <article class="win">
         <div>
+          <div class="win-num">67<small>/589</small></div>
+          <h4>HTB Global <em>Benchmark</em></h4>
+        </div>
+        <p>Project Nightfall · Top 67 · Global · 2026</p>
+      </article>
+      <article class="win">
+        <div>
           <div class="win-num">6<small>/50k+</small></div>
           <h4>TCS HackQuest <em>S9</em></h4>
         </div>
-        <p>Top 10 Ethical Hackers · National</p>
+        <p>Top 6 Ethical Hackers · National</p>
       </article>
       <article class="win">
         <div>
           <div class="win-num">17<small>th</small></div>
-          <h4>Pentathon 2025 (Team)<em>Finalist</em></h4>
+          <h4>Pentathon 2025 (Team) <em>Finalist</em></h4>
         </div>
         <p>NCIIPC-AICTE Grand Finale</p>
       </article>
@@ -2120,9 +2449,9 @@ main{
   <!-- ============== TIMELINE ============== -->
   <section class="section" id="timeline">
     <div class="section-head">
-      <div class="section-num">§ VI · Timeline</div>
+      <div class="section-num">§ VII · Timeline</div>
       <h2 class="section-title">Journey <em>so far.</em></h2>
-      <div class="section-meta">2021 → 2025</div>
+      <div class="section-meta">2021 → 2026</div>
     </div>
 
     <div class="timeline-wrap">
@@ -2137,11 +2466,27 @@ main{
       <div class="timeline">
 
         <div class="tl-year-block">
+          <div class="tl-year">2026</div>
+          <div class="tl-events">
+            <div class="tl-event" data-cat="achievement">
+              <span class="tl-date">May · 2026</span>
+              <div class="tl-body"><h5>HTB Global Cyber Skills Benchmark</h5><p>Project Nightfall — Top 67 / 589 globally (TCS).</p></div>
+              <span class="tl-cat">Achievement</span>
+            </div>
+            <div class="tl-event" data-cat="achievement">
+              <span class="tl-date">Jun 4 · 2026</span>
+              <div class="tl-body"><h5><a href="https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES01&amp;VLCODE=CIVN-2026-0288" target="_blank" rel="noopener noreferrer">GPON CVEs · CERT-In CIVN-2026-0288</a></h5><p>Three CVEs assigned · made public 04 Jun 2026.</p></div>
+              <span class="tl-cat">Achievement</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-year-block">
           <div class="tl-year">2025</div>
           <div class="tl-events">
             <div class="tl-event" data-cat="work">
               <span class="tl-date">Nov 20 · 2025</span>
-              <div class="tl-body"><h5>Systems Engineer at TCS</h5><p>Joined via HackQuest S9 Top 10.</p></div>
+              <div class="tl-body"><h5>Systems Engineer at TCS</h5><p>Joined via HackQuest S9 Top 6.</p></div>
               <span class="tl-cat">Work</span>
             </div>
             <div class="tl-event" data-cat="cert">
@@ -2156,7 +2501,7 @@ main{
             </div>
             <div class="tl-event" data-cat="achievement">
               <span class="tl-date">Feb 28 · 2025</span>
-              <div class="tl-body"><h5>TCS HackQuest S9 — Top 10</h5><p>Award ceremony.</p></div>
+              <div class="tl-body"><h5>TCS HackQuest S9 — Top 6</h5><p>Award ceremony.</p></div>
               <span class="tl-cat">Achievement</span>
             </div>
             <div class="tl-event" data-cat="work">
@@ -2232,18 +2577,17 @@ main{
   <!-- ============== MEDIA ============== -->
   <section class="section" id="media">
     <div class="section-head">
-      <div class="section-num">§ VII · Featured</div>
+      <div class="section-num">§ VIII · Featured</div>
       <h2 class="section-title">Featured <em>in.</em></h2>
       <div class="section-meta">National broadcast</div>
     </div>
 
     <article class="media-card">
       <div class="media-video">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/aLOZ5GwKGFs?start=796&end=998"
-          title="DD News Coverage"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen loading="lazy"></iframe>
+        <button type="button" class="video-facade" id="ddnewsPlay" aria-label="Play DD News segment — loads a YouTube embed">
+          <span class="vf-ring"><span class="vf-play"></span></span>
+          <span class="vf-label">Play · DD News segment</span>
+        </button>
       </div>
       <div class="media-info">
         <div class="media-source">DD News · National</div>
@@ -2257,7 +2601,7 @@ main{
   <!-- ============== GALLERY ============== -->
   <section class="section" id="gallery">
     <div class="section-head">
-      <div class="section-num">§ VIII · Milestones</div>
+      <div class="section-num">§ IX · Milestones</div>
       <h2 class="section-title">Moments &amp; <em>milestones.</em></h2>
       <div class="section-meta">06 entries</div>
     </div>
@@ -2271,12 +2615,12 @@ main{
     <div class="gallery" id="gal">
 
       <!-- Row 1: featured cert + supporting cert. 7+5 -->
-      <figure class="plate size-l" data-cat="certificates" data-src="images/tcs-hackquest-cert.jpg" data-title="TCS HackQuest S9" data-caption="Top 10 — Feb 2025">
+      <figure class="plate size-l" data-cat="certificates" data-src="images/tcs-hackquest-cert.jpg" data-title="TCS HackQuest S9" data-caption="Top 6 — Feb 2025">
         <div class="plate-frame"><img src="images/tcs-hackquest-cert.jpg" alt="TCS HackQuest Season 9 Certificate" loading="lazy"></div>
         <figcaption class="plate-cap">
           <span class="fig">FIG.01</span>
           <b>TCS HackQuest S9</b>
-          <span class="meta">Top 10 · Feb 2025</span>
+          <span class="meta">Top 6 · Feb 2025</span>
         </figcaption>
       </figure>
 
@@ -2339,7 +2683,7 @@ main{
   <!-- ============== VOLUNTEERING + EDUCATION ============== -->
   <section class="section" id="volunteering">
     <div class="section-head">
-      <div class="section-num">§ IX · Community</div>
+      <div class="section-num">§ X · Community</div>
       <h2 class="section-title">Community <em>involvement.</em></h2>
       <div class="section-meta">02 entries</div>
     </div>
@@ -2372,7 +2716,7 @@ main{
 
   <section class="section" id="education">
     <div class="section-head">
-      <div class="section-num">§ X · Education</div>
+      <div class="section-num">§ XI · Education</div>
       <h2 class="section-title">Academic <em>background.</em></h2>
       <div class="section-meta">2021 → 2025</div>
     </div>
@@ -2393,7 +2737,7 @@ main{
   <!-- ============== CONTACT ============== -->
   <section class="section" id="contact">
     <div class="section-head">
-      <div class="section-num">§ XI · Contact</div>
+      <div class="section-num">§ XII · Contact</div>
       <h2 class="section-title">Get in <em>touch.</em></h2>
       <div class="section-meta">06 channels</div>
     </div>
@@ -2417,7 +2761,7 @@ main{
             <span class="val">Anmol Bakshi</span>
             <span class="arr">→</span>
           </a>
-          <a class="contact-row" target="_blank" rel="noopener noreferrer" href="https://app.hackthebox.com/users/917980">
+          <a class="contact-row" target="_blank" rel="noopener noreferrer" href="https://profile.hackthebox.com/profile/019c7471-3cf7-7399-a4fc-54ed85463408">
             <span class="role">HTB</span>
             <span class="val">Hacker / Professional rank</span>
             <span class="arr">→</span>
@@ -2469,7 +2813,7 @@ main{
   <footer class="colophon">
     <div class="col">
       <h6>Outbound.</h6>
-      <p><a href="https://github.com/Ella-Bakshi" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/anmolbakshi24/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://app.hackthebox.com/users/917980" target="_blank" rel="noopener noreferrer">HackTheBox</a></p>
+      <p><a href="https://github.com/Ella-Bakshi" target="_blank" rel="noopener noreferrer">GitHub</a> · <a href="https://www.linkedin.com/in/anmolbakshi24/" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a href="https://profile.hackthebox.com/profile/019c7471-3cf7-7399-a4fc-54ed85463408" target="_blank" rel="noopener noreferrer">HackTheBox</a></p>
     </div>
     <div class="col-end">
       <span>© Anmol Bakshi · 2026</span>
@@ -2494,242 +2838,6 @@ main{
   <button class="lightbox-nav next" id="lbNext" aria-label="Next">›</button>
 </div>
 
-<script>
-(function(){
-  'use strict';
-
-  /* ------- section index spy ------- */
-  var indexerLinks = document.querySelectorAll('.indexer a');
-  var sections = Array.from(indexerLinks).map(function(a){
-    return document.getElementById(a.dataset.target);
-  }).filter(Boolean);
-
-  function updateIndexer(){
-    var pos = window.scrollY + window.innerHeight * 0.35;
-    var current = sections[0];
-    sections.forEach(function(s){
-      if(s && s.offsetTop <= pos) current = s;
-    });
-    indexerLinks.forEach(function(a){
-      a.classList.toggle('is-active', a.dataset.target === (current && current.id));
-    });
-  }
-  window.addEventListener('scroll', updateIndexer, {passive:true});
-  updateIndexer();
-
-  /* ------- timeline filter ------- */
-  var tlFilter = document.getElementById('tlFilter');
-  var tlEvents = document.querySelectorAll('.tl-event');
-  var tlYearBlocks = document.querySelectorAll('.tl-year-block');
-  if(tlFilter){
-    tlFilter.addEventListener('click', function(e){
-      var b = e.target.closest('button');
-      if(!b) return;
-      var f = b.dataset.filter;
-      tlFilter.querySelectorAll('button').forEach(function(x){x.classList.remove('is-active')});
-      b.classList.add('is-active');
-      tlEvents.forEach(function(ev){
-        var match = (f === 'all' || ev.dataset.cat === f);
-        ev.classList.toggle('hide', !match);
-      });
-      // hide year blocks with zero visible events
-      tlYearBlocks.forEach(function(yb){
-        var visible = yb.querySelectorAll('.tl-event:not(.hide)');
-        var year = yb.querySelector('.tl-year');
-        var ev   = yb.querySelector('.tl-events');
-        if(year && ev){
-          year.style.display = visible.length ? '' : 'none';
-          ev.style.display   = visible.length ? '' : 'none';
-        }
-      });
-    });
-  }
-
-  /* ------- gallery filter ------- */
-  var galTabs = document.getElementById('galTabs');
-  var plates = document.querySelectorAll('#gal .plate');
-  if(galTabs){
-    galTabs.addEventListener('click', function(e){
-      var b = e.target.closest('button');
-      if(!b) return;
-      var f = b.dataset.filter;
-      galTabs.querySelectorAll('button').forEach(function(x){x.classList.remove('is-active')});
-      b.classList.add('is-active');
-      plates.forEach(function(p){
-        var match = (f === 'all' || p.dataset.cat === f);
-        p.classList.toggle('hide', !match);
-      });
-    });
-  }
-
-  /* ------- scroll reveal ------- */
-  (function setupReveal(){
-    if(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    if(!('IntersectionObserver' in window)) return;
-
-    // Auto-tag elements
-    var heads = document.querySelectorAll('.section-head');
-    heads.forEach(function(h){
-      h.classList.add('reveal-head');
-      var num = h.querySelector('.section-num');
-      var title = h.querySelector('.section-title');
-      if(num) num.classList.add('reveal');
-      if(title) title.classList.add('reveal-title');
-    });
-
-    // Stagger containers per section body
-    var staggerSelectors = [
-      '.work-list',
-      '.skills-grid',
-      '.projects-grid',
-      '.wins-grid',
-      '.tl-events',
-      '.media-grid',
-      '.gallery-grid',
-      '.vol-list',
-      '.edu-list',
-      '.contact-grid'
-    ];
-    staggerSelectors.forEach(function(sel){
-      document.querySelectorAll(sel).forEach(function(el){
-        el.classList.add('reveal-stagger');
-      });
-    });
-
-    // Hero lede + meta — fade up on load
-    var heroBits = document.querySelectorAll('.hero .lede, .hero .hero-meta, .hero h1, .portrait-wrap, .plate-caption');
-    heroBits.forEach(function(el){ el.classList.add('reveal'); });
-
-    var io = new IntersectionObserver(function(entries){
-      entries.forEach(function(en){
-        if(en.isIntersecting){
-          en.target.classList.add('is-in');
-          io.unobserve(en.target);
-        }
-      });
-    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
-
-    document.querySelectorAll('.reveal, .reveal-title, .reveal-stagger, .section-head').forEach(function(el){
-      io.observe(el);
-    });
-
-    // Hero items fire on load (they may already be above threshold)
-    requestAnimationFrame(function(){
-      document.querySelectorAll('.hero .reveal').forEach(function(el, i){
-        setTimeout(function(){ el.classList.add('is-in'); }, 80 + i * 90);
-      });
-    });
-  })();
-
-  /* ------- lightbox ------- */
-  var lb = document.getElementById('lightbox');
-  var lbImg = document.getElementById('lbImg');
-  var lbTitle = document.getElementById('lbTitle');
-  var lbSub = document.getElementById('lbSub');
-  var lbClose = document.getElementById('lbClose');
-  var lbPrev = document.getElementById('lbPrev');
-  var lbNext = document.getElementById('lbNext');
-  var lbIndex = 0;
-
-  function openLb(i){
-    var visible = Array.from(plates).filter(function(p){return !p.classList.contains('hide')});
-    if(!visible.length) return;
-    lbIndex = ((i % visible.length) + visible.length) % visible.length;
-    var p = visible[lbIndex];
-    lbImg.src = p.dataset.src;
-    lbImg.alt = p.dataset.title || '';
-    lbTitle.textContent = p.dataset.title || '';
-    lbSub.textContent = p.dataset.caption || '';
-    lb.classList.add('is-active');
-    document.body.style.overflow = 'hidden';
-    lb.dataset.visibleCount = visible.length;
-  }
-  function closeLb(){
-    lb.classList.remove('is-active');
-    document.body.style.overflow = '';
-  }
-  function navLb(dir){
-    var visible = Array.from(plates).filter(function(p){return !p.classList.contains('hide')});
-    openLb(lbIndex + dir);
-  }
-  plates.forEach(function(p, i){
-    p.addEventListener('click', function(){
-      var visible = Array.from(plates).filter(function(x){return !x.classList.contains('hide')});
-      var idx = visible.indexOf(p);
-      openLb(idx >= 0 ? idx : 0);
-    });
-  });
-  lbClose.addEventListener('click', closeLb);
-  lbPrev.addEventListener('click', function(){ navLb(-1); });
-  lbNext.addEventListener('click', function(){ navLb(1); });
-  lb.addEventListener('click', function(e){ if(e.target === lb) closeLb(); });
-  document.addEventListener('keydown', function(e){
-    if(!lb.classList.contains('is-active')) return;
-    if(e.key === 'Escape') closeLb();
-    if(e.key === 'ArrowLeft') navLb(-1);
-    if(e.key === 'ArrowRight') navLb(1);
-  });
-
-  /* ------- contact form (mailto) ------- */
-  var form = document.getElementById('contactForm');
-  var msg = document.getElementById('formMsg');
-  function sanitize(s){return (s||'').toString().replace(/[<>]/g,'').replace(/javascript:/gi,'').replace(/on\w+=/gi,'').trim();}
-  if(form){
-    form.addEventListener('submit', function(e){
-      e.preventDefault();
-      var hp = form.querySelector('input[name="website"]');
-      if(hp && hp.value !== ''){return false;}
-      var n = sanitize(document.getElementById('name').value);
-      var em = sanitize(document.getElementById('email').value);
-      var m = sanitize(document.getElementById('message').value);
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){msg.textContent='× Invalid email.';msg.style.color='var(--vermillion)';return;}
-      if(!/^[A-Za-z\s\-']{2,100}$/.test(n)){msg.textContent='× Invalid name.';msg.style.color='var(--vermillion)';return;}
-      if(m.length < 10 || m.length > 2000){msg.textContent='× Message 10–2000 chars.';msg.style.color='var(--vermillion)';return;}
-      var subject = encodeURIComponent('Portfolio contact — ' + n);
-      var body = encodeURIComponent('From: ' + n + '\nEmail: ' + em + '\n\n' + m);
-      var to = atob('YW5tb2xiYWtzaGkyNEBnbWFpbC5jb20=');
-      window.location.href = 'mailto:' + to + '?subject=' + subject + '&body=' + body;
-      msg.textContent = '· Opening your mail client…';
-      msg.style.color = 'var(--ink-2)';
-    });
-  }
-
-  /* ------- theme toggle ------- */
-  var themeBtn = document.getElementById('theme-toggle');
-  if(themeBtn){
-    var setTheme = function(t){
-      document.documentElement.setAttribute('data-theme', t);
-      try{ localStorage.setItem('theme', t); }catch(e){}
-      themeBtn.setAttribute('aria-pressed', t === 'dark');
-      themeBtn.setAttribute('title', t === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-    };
-    themeBtn.addEventListener('click', function(){
-      var current = document.documentElement.getAttribute('data-theme') || 'light';
-      setTheme(current === 'dark' ? 'light' : 'dark');
-    });
-    setTheme(document.documentElement.getAttribute('data-theme') || 'light');
-
-    /* Sync with OS preference if user hasn't explicitly chosen */
-    if(window.matchMedia){
-      var mq = window.matchMedia('(prefers-color-scheme: dark)');
-      var listener = function(e){
-        try{ if(localStorage.getItem('theme')) return; }catch(_){}
-        setTheme(e.matches ? 'dark' : 'light');
-      };
-      if(mq.addEventListener) mq.addEventListener('change', listener);
-      else if(mq.addListener) mq.addListener(listener);
-    }
-  }
-
-  /* ------- email obfuscation: bind on demand, no plaintext in HTML ------- */
-  document.querySelectorAll('[data-mail]').forEach(function(a){
-    var addr = atob(a.getAttribute('data-mail'));
-    a.setAttribute('href', 'mailto:' + addr);
-    var t = a.querySelector('[data-mail-text]');
-    if(t) t.textContent = addr;
-    a.removeAttribute('data-mail');
-  });
-})();
-</script>
+<script src="app.js"></script>
 </body>
 </html>

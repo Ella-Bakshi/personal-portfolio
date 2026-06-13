@@ -1,6 +1,7 @@
 User-agent: *
 Allow: /
 
+# Block AI training crawlers — opt-out from generative-AI training datasets
 User-agent: GPTBot
 Disallow: /
 
