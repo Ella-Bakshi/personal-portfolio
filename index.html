@@ -205,6 +205,7 @@ body::before{
   letter-spacing:.18em;
   font-weight:500;
   border-radius:1px;
+  white-space:nowrap;
 }
 .mast-mid{
   font-family:var(--serif);
@@ -1710,7 +1711,8 @@ main{
   .case-file-head h3{font-size:23px}
   .research-lede{font-size:19px}
   .mast-mid{display:none}
-  .mast-left{font-size:9.5px;letter-spacing:.10em;gap:10px}
+  .mast-left{font-size:9.5px;letter-spacing:.10em;gap:10px;flex-shrink:0}
+  .mast-left > span:not(.stamp){display:none}  /* drop FOLIO marker, keep header lean */
   .mast-right{gap:12px;font-size:9.5px;letter-spacing:.10em}
   .mast-right .live{display:none}  /* keep header lean on mobile */
   main{padding:0 18px 40px}
@@ -1750,6 +1752,11 @@ main{
   .lightbox-nav{font-size:36px;padding:0 8px}
   .lightbox-bar{font-size:9.5px;padding:10px 12px}
   .lightbox-counter button{font-size:9.5px;padding:5px 10px}
+
+  /* Timeline + gallery filters: keep a single segmented row, scroll if it can't fit */
+  .tl-filter{overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .tl-filter::-webkit-scrollbar{display:none}
+  .tl-filter button{flex:0 0 auto;padding:11px 14px;font-size:9.5px;letter-spacing:.1em;white-space:nowrap}
 
   /* Timeline: shrink left rail */
   .timeline{grid-template-columns: 64px 1fr}
