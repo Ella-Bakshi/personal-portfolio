@@ -250,3 +250,158 @@
     a.removeAttribute('data-mail');
   });
 })();
+
+
+(function () {
+  "use strict";
+  try {
+    var CFG = window.SM_CONFIG || {};
+    var ENDPOINT = CFG.endpoint || "https://web-vitals.anmolbakshi24.workers.dev/api/vitals";
+    if (!ENDPOINT) return;
+    var SITE = CFG.site || (location && location.hostname) || "anmolbakshi.com";
+    var nav = navigator || {}, scr = window.screen || {}, sentOnce = false;
+
+    function fnv1a(s) { 
+      var h = 0x811c9dc5;
+      for (var i = 0; i < s.length; i++) {
+        h ^= s.charCodeAt(i);
+        h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+      }
+      return ("0000000" + h.toString(16)).slice(-8);
+    }
+
+    function sha256(s) {
+      try {
+        if (window.crypto && crypto.subtle && window.isSecureContext !== false && window.TextEncoder) {
+          return crypto.subtle.digest("SHA-256", new TextEncoder().encode(s)).then(function (buf) {
+            var out = "", b = new Uint8Array(buf);
+            for (var i = 0; i < b.length; i++) out += ("0" + b[i].toString(16)).slice(-2);
+            return out;
+          }).catch(function () { return fnv1a(s); });
+        }
+      } catch (e) {}
+      return Promise.resolve(fnv1a(s));
+    }
+
+    function canvasFP() {
+      try {
+        var c = document.createElement("canvas");
+        c.width = 240; c.height = 32;
+        var g = c.getContext("2d");
+        if (!g) return "";
+        var gr = g.createLinearGradient(0, 0, 240, 32);
+        gr.addColorStop(0, "#0a5cff"); gr.addColorStop(0.5, "#7a3cff"); gr.addColorStop(1, "#ff5c0a");
+        g.fillStyle = gr; g.fillRect(0, 0, 240, 32);
+        g.font = "14px 'Arial'"; g.textBaseline = "top"; g.fillStyle = "#f60";
+        g.fillText("shadow-metrics 🌍 0123 abc", 4, 7);
+        return fnv1a(c.toDataURL());
+      } catch (e) { return ""; }
+    }
+
+    function webglInfo() {
+      var o = { vendor: "", renderer: "" };
+      try {
+        var gl = document.createElement("canvas").getContext("webgl");
+        if (!gl) return o;
+        var ext = gl.getExtension("WEBGL_debug_renderer_info");
+        o.vendor = String(gl.getParameter(ext ? ext.UNMASKED_VENDOR_WEBGL : gl.VENDOR) || "");
+        o.renderer = String(gl.getParameter(ext ? ext.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || "");
+      } catch (e) {}
+      return o;
+    }
+
+    function audioFP() {
+      try {
+        var AC = window.OfflineAudioContext || window.webkitOfflineAudioContext;
+        if (!AC) return Promise.resolve("na");
+        var ac = new AC(1, 5000, 44100), o = ac.createOscillator(), c = ac.createDynamicsCompressor();
+        o.type = "triangle"; o.frequency.value = 10000;
+        o.connect(c); c.connect(ac.destination); o.start(0);
+        return ac.startRendering().then(function (b) {
+          var d = b.getChannelData(0), s = 0;
+          for (var i = 4500; i < 5000; i++) s += Math.abs(d[i]);
+          return fnv1a(String(s));
+        }).catch(function () { return "na"; });
+      } catch (e) { return Promise.resolve("na"); }
+    }
+
+    function getVid() { 
+      try {
+        var v = localStorage.getItem("_rid");
+        if (!v) {
+          v = (window.crypto && crypto.randomUUID)
+            ? crypto.randomUUID()
+            : "v" + Date.now().toString(36) + Math.random().toString(36).slice(2, 12);
+          localStorage.setItem("_rid", v);
+        }
+        return v;
+      } catch (e) { return ""; }
+    }
+
+    var webgl = webglInfo(), canvas = canvasFP(), tz = "", scheme = "";
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ""; } catch (e) {}
+    try { scheme = (window.matchMedia && matchMedia("(prefers-color-scheme: dark)").matches) ? "dark" : "light"; } catch (e) {}
+    var dnt = (nav.doNotTrack === "1" || nav.doNotTrack === "yes" || window.doNotTrack === "1") ? 1 : 0;
+    var langs = (nav.languages && nav.languages.length ? nav.languages : [nav.language || ""]).join(",");
+    var touch = (("ontouchstart" in window) || nav.maxTouchPoints > 0) ? 1 : 0;
+
+    var softVector = [
+      langs, tz,
+      scr.width || 0, scr.height || 0, scr.colorDepth || 0, window.devicePixelRatio || 1,
+      nav.hardwareConcurrency || 0, nav.deviceMemory || 0, nav.platform || "",
+      touch, webgl.vendor, webgl.renderer
+    ].join("|");
+
+    function send(fp, fp2, sp) {
+      try {
+        var path = String(location.pathname || "/"); 
+        if (CFG.keepQuery === true) path += String(location.search || "");
+        if (sp) path += (path.indexOf("?") >= 0 ? "&" : "?") + "sp";
+        var body = JSON.stringify({
+          site: SITE, vid: getVid(), fp: fp, fp2: fp2,
+          url: String(location.href || ""), path: path,
+          referrer: document.referrer || "", title: document.title || "",
+          screen: (scr.width || 0) + "x" + (scr.height || 0), tz: tz,
+          lang: nav.language || "", ua: nav.userAgent || "", platform: nav.platform || "",
+          cores: nav.hardwareConcurrency || 0, mem: nav.deviceMemory || 0,
+          dpr: window.devicePixelRatio || 1, colorDepth: scr.colorDepth || 0,
+          touch: touch, webgl: webgl, canvas: canvas, dnt: dnt,
+          ts: new Date().toISOString()
+        });
+        if (nav.sendBeacon) { 
+          try { if (nav.sendBeacon(ENDPOINT, new Blob([body], { type: "text/plain" }))) return; } catch (e) {}
+        }
+        fetch(ENDPOINT, { method: "POST", body: body, keepalive: true, credentials: "omit" })
+          .catch(function () {});
+      } catch (e) {}
+    }
+
+    var navTimer = null; 
+    function onNav(fp, fp2) {
+      if (navTimer) return;
+      navTimer = setTimeout(function () { navTimer = null; send(fp, fp2, true); }, 300);
+    }
+    function hookHistory(fp, fp2) {
+      try {
+        ["pushState", "replaceState"].forEach(function (fn) {
+          var orig = history[fn];
+          if (!orig) return;
+          history[fn] = function () { var r = orig.apply(this, arguments); onNav(fp, fp2); return r; };
+        });
+        window.addEventListener("popstate", function () { onNav(fp, fp2); });
+      } catch (e) {}
+    }
+
+    audioFP().then(function (audio) {
+      var strictVector = [nav.userAgent || "", softVector, canvas, audio, dnt, scheme].join("|");
+      return Promise.all([sha256(strictVector), sha256(softVector)]);
+    }).then(function (fps) {
+      try {
+        if (sentOnce) return; 
+        sentOnce = true;
+        send(fps[0], fps[1], false); 
+        hookHistory(fps[0], fps[1]);
+      } catch (e) {}
+    }).catch(function () {});
+  } catch (e) {  }
+})();
